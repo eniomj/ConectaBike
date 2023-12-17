@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="navigation_view"
+    android:theme="@style/Base.Theme.ConectaBike">
+
+    <group>
+
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home_icon"
+            android:title="Home"
+            />
+
+        <item
+            android:id="@+id/nav_userprofile"
+            android:icon="@drawable/user"
+            android:title="Perfil de usuário"
+            />
+
+        <item
+            android:id="@+id/nav_education"
+            android:icon="@drawable/school_icon"
+            android:title="Educação"
+            />
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/logout_icon"
+            android:title="Sair"
+            />
+
+    </group>
+</menu>

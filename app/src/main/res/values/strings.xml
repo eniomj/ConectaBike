@@ -1,0 +1,59 @@
+<resources>
+    <string name="app_name">ConectaBike</string>
+    <string name="open_nav">Open Navigation Drawer</string>
+    <string name="close_nav">Close Navigation Drawer</string>
+
+    <string name="reason1">Impacto ambiental:</string>
+    <string name="reason2">Benefícios para a saúde:</string>
+    <string name="reason3">Economia de custos:</string>
+    <string name="reason4">Redução do congestionamento no trânsito:</string>
+    <string name="reason5">Planejamento urbano e infraestrutura:</string>
+    <string name="reason6">Benefícios sociais e comunitários:</string>
+    <string name="reason7">Segurança e prevenção de acidentes:</string>
+
+    <string name="explanation1">As bicicletas são ecologicamente corretas e não produzem emissões, ao contrário dos carros, que contribuem para a poluição do ar e as mudanças climáticas.</string>
+    <string name="explanation2">Andar de bicicleta é uma ótima forma de exercício, que promove a saúde cardiovascular, a força muscular e o bem-estar geral.</string>
+    <string name="explanation3">Ter e manter uma bicicleta é significativamente mais barato do que ter um carro, considerando fatores como combustível, seguro e custos de manutenção.</string>
+    <string name="explanation4">As bicicletas ocupam menos espaço na estrada e podem ajudar a aliviar o congestionamento do tráfego em áreas urbanas.</string>
+    <string name="explanation5">A defesa de uma infraestrutura favorável às bicicletas pode levar a ambientes urbanos mais sustentáveis e acessíveis.</string>
+    <string name="explanation6">O uso da bicicleta estimula um senso de comunidade e interação social, promovendo uma sociedade mais saudável e conectada.</string>
+    <string name="explanation7">Embora acidentes possam acontecer, o registro geral de segurança das bicicletas é geralmente melhor do que o dos carros.</string>
+
+    <string name="source1">https://bikeitau.com.br/blog/beneficios-do-uso-da-bicicleta-para-o-meio-ambiente/</string>
+    <string name="source2">https://www.metlife.com.br/blog/saude-e-bem-estar/10-beneficios-de-andar-de-bicicleta-para-a-sua-saude/</string>
+    <string name="source3">https://coppe.ufrj.br/planeta-coppe/bicicleta-a-economia-enfim-calculada/</string>
+    <string name="source4">https://mobilidade.estadao.com.br/mobilidade-para-que/beneficios-de-andar-de-bicicleta-incluem-reduzir-poluicao-e-transito/</string>
+    <string name="source5">https://www.advocacyadvance.org/</string>
+    <string name="source6">https://modabike.com.br/glossario/o-que-e-impacto-social-do-ciclismo/</string>
+    <string name="source7">https://www.cdc.gov/transportationsafety/bicycle/</string>
+
+    <string-array name="reason_titles">
+        <item>@string/reason1</item>
+        <item>@string/reason2</item>
+        <item>@string/reason3</item>
+        <item>@string/reason4</item>
+        <item>@string/reason5</item>
+        <item>@string/reason6</item>
+        <item>@string/reason7</item>
+    </string-array>
+
+    <string-array name="reason_explanations">
+        <item>@string/explanation1</item>
+        <item>@string/explanation2</item>
+        <item>@string/explanation3</item>
+        <item>@string/explanation4</item>
+        <item>@string/explanation5</item>
+        <item>@string/explanation6</item>
+        <item>@string/explanation7</item>
+    </string-array>
+
+    <string-array name="reason_sources">
+        <item>@string/source1</item>
+        <item>@string/source2</item>
+        <item>@string/source3</item>
+        <item>@string/source4</item>
+        <item>@string/source5</item>
+        <item>@string/source6</item>
+        <item>@string/source7</item>
+    </string-array>
+</resources>
