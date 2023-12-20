@@ -2,13 +2,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="start"
-    android:padding="5dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="start"
+    android:padding="5dp"
+    android:id="@+id/message_item_id">
 
+    <androidx.cardview.widget.CardView
 
+        android:layout_marginEnd="15dp"
+        android:id="@+id/profilepicturecard"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:cardCornerRadius="100dp"
+        android:elevation="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/profilepicture"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:scaleType="centerCrop"
+            android:elevation="5dp"
+            />
+
+    </androidx.cardview.widget.CardView>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_toEndOf="@+id/profilepicturecard"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/layoutMessage1">
 
@@ -17,29 +41,17 @@
             android:layout_height="wrap_content"
             android:id="@+id/userMessage"
             android:text=""
-            android:textStyle="bold"
             android:textSize="16sp"/>
 
     </LinearLayout>
 
+
+
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_toEndOf="@+id/profilepicturecard"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/layoutMessage1"
-        android:id="@+id/layoutMessage2">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/message"
-            android:textSize="16sp"
-            android:text="" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layoutMessage2"
         android:gravity="end"
         android:layout_marginTop="5dp">
 

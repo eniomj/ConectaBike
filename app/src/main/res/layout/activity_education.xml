@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:theme="@style/Base.Theme.ConectaBike"
-    tools:context="conectabike.conectabike.Education">
+    tools:context="com.conectabike.Education">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -33,7 +33,6 @@
             android:scrollbars="vertical"
             tools:listitem="@layout/education_item"/>
 
-
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -43,8 +42,8 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/nav_menu"
-        android:background="@color/my_secondary"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white" />
+        android:background="@drawable/white_bg"
+        app:itemIconTint="@color/my_secondary"
+        app:itemTextColor="@color/my_secondary" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

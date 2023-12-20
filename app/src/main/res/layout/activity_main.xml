@@ -7,7 +7,7 @@
     android:id="@+id/drawer_layout"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
-    tools:context="conectabike.conectabike.MainActivity"
+    tools:context="com.conectabike.MainActivity"
     android:background="@drawable/bg2"
     android:theme="@style/Base.Theme.ConectaBike">
     
@@ -40,9 +40,9 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/nav_menu"
-        android:background="@color/my_secondary"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white" />
+        android:background="@drawable/white_bg"
+        app:itemIconTint="@color/my_secondary"
+        app:itemTextColor="@color/my_secondary" />
 
 
 

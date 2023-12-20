@@ -1,6 +1,7 @@
 package com.conectabike;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,11 +21,12 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
-    ImageView profilepicture;
+    ImageView profilePicture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -49,11 +51,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView user_email = navigationView.getHeaderView(0).findViewById(R.id.user_email);
         user_email.setText(user.getEmail());
 
-        profilepicture = navigationView.getHeaderView(0).findViewById(R.id.profilepicture);
+        profilePicture = navigationView.getHeaderView(0).findViewById(R.id.profilepicture);
         String photoUrl = String.valueOf(user.getPhotoUrl());
         Glide.with(this)
                 .load(photoUrl)
-                .into(profilepicture);
+                .into(profilePicture);
+
     }
 
     @Override
@@ -64,6 +67,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         if (item.getItemId() == R.id.nav_userprofile) {
             Intent intent = new Intent(getApplicationContext(), UserProfile.class);
+            startActivity(intent);
+            finish();
+        }
+        if (item.getItemId() == R.id.nav_chat) {
+            Intent intent = new Intent(getApplicationContext(), Chat.class);
             startActivity(intent);
             finish();
         }
@@ -80,17 +88,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-
-
-    @Override
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
     }
 }
 

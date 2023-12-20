@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="conectabike.conectabike.CriarRota">
+    tools:context="com.conectabike.CriarRota">
 
     <LinearLayout
         android:id="@+id/layoutRota1"
@@ -40,17 +40,6 @@
             app:cornerRadius="5dp"
             android:layout_gravity="end"/>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/mostrarRota"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="-95dp"
-            android:layout_marginTop="2dp"
-            android:onClick="mostrarRota"
-            android:text="Rota"
-            app:cornerRadius="5dp"
-            android:layout_gravity="end"
-            android:layout_marginEnd="95dp"/>
     </FrameLayout>
 
     <LinearLayout
@@ -95,7 +84,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:hint="Dê um título à sua rota"/>
 
                 <View
                     android:layout_height="20dp"
@@ -106,7 +96,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:onClick="salvarRota"
-                    android:text="SALVAR ROTA"
+                    android:text="SALVAR"
                     app:cornerRadius="32dp" />
 
             </LinearLayout>

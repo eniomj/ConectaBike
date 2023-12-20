@@ -2,6 +2,8 @@ package com.conectabike;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -43,6 +45,7 @@ public class Cadastro extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_cadastro);
 
         mAuth = FirebaseAuth.getInstance();
@@ -66,12 +69,13 @@ public class Cadastro extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String email, password, username;
+                String email, password, username, fullname;
                 email = String.valueOf(editTextEmail.getText());
                 password = String.valueOf(editTextPassword.getText());
                 username = String.valueOf(editTextUsername.getText());
+                fullname = String.valueOf(editTextFullname.getText());
 
-                if(!email.equals("") && !password.equals("")) {
+                if(!email.equals("") && !password.equals("") && !username.equals("") && !fullname.equals("")) {
                     mAuth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -99,8 +103,12 @@ public class Cadastro extends AppCompatActivity {
                                                             String date = now.format(formatter);
 
                                                             User user = new User();
-                                                            user.setFullName(editTextFullname.getText().toString());
+                                                            user.setFullName(fullname);
                                                             user.setDate(date);
+                                                            user.setEmail(email);
+                                                            user.setUsername(username);
+                                                            user.setProfilePictureUri("https://firebasestorage.googleapis.com/v0/b/pedalaamigo-e5710.appspot.com/o/user_profile_picture%2Fuser_default_profile.jpg?alt=media&token=6606af83-a1ce-4096-9949-a0175a67f0ba");
+
                                                             usersRef.child(uid).setValue(user);
 
                                                             Toast.makeText(Cadastro.this, "Conta criada com sucesso!",

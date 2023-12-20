@@ -28,8 +28,7 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="10dp">
+            android:layout_gravity="center">
 
             <TextView
                 android:id="@+id/title"
@@ -47,20 +46,42 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             >
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/profilepicturecard"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:cardCornerRadius="100dp"
+                android:elevation="6dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/profilepicture"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@color/white"
+                    android:scaleType="centerCrop"
+                    android:elevation="5dp"
+                    />
+
+            </androidx.cardview.widget.CardView>
+
             <TextView
-                android:drawableStart="@drawable/user"
+                android:layout_gravity="center"
                 android:id="@+id/user"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:text=""
                 android:textColor="@color/my_secondary"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:textStyle="bold"/>
 
         </LinearLayout>
 
         <TextView
-            android:drawableLeft="@drawable/distance_near"
             android:id="@+id/distance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -69,7 +90,8 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            app:drawableLeftCompat="@drawable/distance_near" />
 
     </LinearLayout>
 

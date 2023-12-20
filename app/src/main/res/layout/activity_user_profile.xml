@@ -9,9 +9,10 @@
     android:id="@+id/drawer_layout"
     android:background="@color/my_secondary"
     android:theme="@style/Base.Theme.ConectaBike"
-    tools:context="conectabike.conectabike.UserProfile">
+    tools:context="com.conectabike.UserProfile">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -36,25 +37,6 @@
                 />
 
         </androidx.cardview.widget.CardView>
-
-        <com.google.android.material.button.MaterialButton
-            android:stateListAnimator="@null"
-            android:elevation="20dp"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:insetLeft="0dp"
-            android:insetTop="0dp"
-            android:insetRight="0dp"
-            android:insetBottom="0dp"
-            android:padding="0dp"
-            app:iconSize="30dp"
-            app:iconPadding="0dp"
-            app:iconGravity="textStart"
-            app:icon="@drawable/camera_plus"
-            app:layout_constraintEnd_toEndOf="@+id/profilepicturecard"
-            app:layout_constraintBottom_toBottomOf="@+id/profilepicturecard"
-            android:onClick="changeProfilePicture"
-            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -236,8 +218,8 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/nav_menu"
-        android:background="@color/my_secondary"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white" />
+        android:background="@drawable/white_bg"
+        app:itemIconTint="@color/my_secondary"
+        app:itemTextColor="@color/my_secondary" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -150,6 +150,7 @@ public class CriarRota extends AppCompatActivity implements OnMapReadyCallback {
                             .draggable(true)
                             .visible(true));
                     markerCount.add(arg0);
+                    mostrarRota();
                 }
             }
         });
@@ -214,19 +215,19 @@ public class CriarRota extends AppCompatActivity implements OnMapReadyCallback {
         }
     }
 
+    private void mostrarRota() {
+        if (markerCount.size() == 2) {
+            runOnUiThread(() -> getDirections(markerCount.get(0), markerCount.get(1)));
+        }
+    }
+
     public void clearMarkers(View view) {
         mMap.clear();
         points.clear();
         markerCount.clear();
     }
 
-    public void mostrarRota(View view) {
-        if (markerCount.size() == 2) {
-            runOnUiThread(() -> getDirections(markerCount.get(0), markerCount.get(1)));
-        } else {
-            Toast.makeText(this, "É preciso de origem e destino para gerar uma rota.", Toast.LENGTH_LONG).show();
-        }
-    }
+
 
     public void salvarRota(View view) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();

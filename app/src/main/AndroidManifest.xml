@@ -17,13 +17,16 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name="com.conectabike.UserProfile"
+            android:name=".Chat"
             android:exported="false" />
         <activity
-            android:name="com.conectabike.Education"
+            android:name=".UserProfile"
             android:exported="false" />
         <activity
-            android:name="com.conectabike.Rota"
+            android:name=".Education"
+            android:exported="false" />
+        <activity
+            android:name=".Rota"
             android:exported="false" />
 
         <meta-data
@@ -31,14 +34,14 @@
             android:value="${MAPS_API_KEY}" />
 
         <activity
-            android:name="com.conectabike.CriarRota"
+            android:name=".CriarRota"
             android:exported="false"
             android:theme="@style/Theme.ConectaBike" />
         <activity
-            android:name="com.conectabike.Cadastro"
+            android:name=".Cadastro"
             android:exported="false" />
         <activity
-            android:name="com.conectabike.Login"
+            android:name=".Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,10 +50,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.conectabike.MainActivity"
+            android:name=".MainActivity"
             android:exported="true" />
         <activity
-            android:name="com.conectabike.HomeFragment"
+            android:name=".HomeFragment"
             android:exported="true"
             tools:ignore="Instantiatable" />
 
