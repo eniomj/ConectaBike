@@ -67,16 +67,36 @@ public class Chat extends AppCompatActivity implements NavigationView.OnNavigati
             drawerLayout.closeDrawer(GravityCompat.START);
         }
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         // Header email
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         TextView user_email = navigationView.getHeaderView(0).findViewById(R.id.user_email);
-        user_email.setText(user.getEmail());
-        // Header photo
-        ImageView profilePicture = navigationView.getHeaderView(0).findViewById(R.id.profilepicture);
-        String photoUrl = String.valueOf(user.getPhotoUrl());
-        Glide.with(this)
-                .load(photoUrl)
-                .into(profilePicture);
+        user_email.setText(firebaseUser.getEmail());
+
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
+        usersRef.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String profilePictureUri = dataSnapshot.child("profilePictureUri").getValue(String.class);
+
+                    // Header fullname
+                    TextView fullnameHeader = navigationView.getHeaderView(0).findViewById(R.id.user_fullname);
+                    fullnameHeader.setText(dataSnapshot.child("fullName").getValue(String.class));
+                    // Header photo
+                    ImageView profilePictureHeader = navigationView.getHeaderView(0).findViewById(R.id.profilepicture);
+
+                    Glide.with(getApplicationContext())
+                            .load(profilePictureUri)
+                            .into(profilePictureHeader);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle the error
+                Log.d("logdebug", "db error: " + databaseError);
+            }
+        });
         // RecyclerView
         list.clear();
 

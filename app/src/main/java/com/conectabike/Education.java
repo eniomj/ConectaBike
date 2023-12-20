@@ -13,11 +13,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Education extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
@@ -49,8 +58,36 @@ public class Education extends AppCompatActivity implements NavigationView.OnNav
             drawerLayout.closeDrawer(GravityCompat.START);
         }
 
+        // Header email
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         TextView user_email = navigationView.getHeaderView(0).findViewById(R.id.user_email);
-        user_email.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        user_email.setText(firebaseUser.getEmail());
+
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
+        usersRef.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String profilePictureUri = dataSnapshot.child("profilePictureUri").getValue(String.class);
+
+                    // Header fullname
+                    TextView fullnameHeader = navigationView.getHeaderView(0).findViewById(R.id.user_fullname);
+                    fullnameHeader.setText(dataSnapshot.child("fullName").getValue(String.class));
+                    // Header photo
+                    ImageView profilePictureHeader = navigationView.getHeaderView(0).findViewById(R.id.profilepicture);
+
+                    Glide.with(getApplicationContext())
+                            .load(profilePictureUri)
+                            .into(profilePictureHeader);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle the error
+                Log.d("logdebug", "db error: " + databaseError);
+            }
+        });
 
         Resources resources = getResources();
 

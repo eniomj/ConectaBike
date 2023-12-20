@@ -40,7 +40,7 @@ public class UserProfile extends AppCompatActivity implements NavigationView.OnN
     private static final int PICK_IMAGE_REQUEST = 1;
     Boolean isCurrentUserProfile = false;
     TextView username, profileUsername, profileEmail, accountAge, titleName, profileName;
-    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
     ImageView profilePicture, profilePictureHeader;
     DrawerLayout drawerLayout;
 
@@ -68,22 +68,24 @@ public class UserProfile extends AppCompatActivity implements NavigationView.OnN
             drawerLayout.closeDrawer(GravityCompat.START);
         }
 
-        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         // Header email
         TextView user_email = navigationView.getHeaderView(0).findViewById(R.id.user_email);
-        user_email.setText(firebaseAuth.getCurrentUser().getEmail());
+        user_email.setText(firebaseUser.getEmail());
 
-        // Header photo
-        profilePictureHeader = navigationView.getHeaderView(0).findViewById(R.id.profilepicture);
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
-        String uid = firebaseAuth.getCurrentUser().getUid();
-
-        usersRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+        usersRef.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     String profilePictureUri = dataSnapshot.child("profilePictureUri").getValue(String.class);
+
+                    // Header fullname
+                    TextView fullnameHeader = navigationView.getHeaderView(0).findViewById(R.id.user_fullname);
+                    fullnameHeader.setText(dataSnapshot.child("fullName").getValue(String.class));
+                    // Header photo
+                    profilePictureHeader = navigationView.getHeaderView(0).findViewById(R.id.profilepicture);
 
                     Glide.with(getApplicationContext())
                             .load(profilePictureUri)
@@ -104,7 +106,7 @@ public class UserProfile extends AppCompatActivity implements NavigationView.OnN
             fetchAndDisplayUserData(userId);
         } else {
             isCurrentUserProfile = true;
-            fetchAndDisplayUserData(firebaseAuth.getCurrentUser().getUid());
+            fetchAndDisplayUserData(firebaseUser.getUid());
         }
 
         // Botão para mudar foto de usuário
