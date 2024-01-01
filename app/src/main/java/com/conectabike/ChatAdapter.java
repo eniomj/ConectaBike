@@ -2,10 +2,7 @@ package com.conectabike;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.SpannableStringBuilder;
-import android.text.style.StyleSpan;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -25,8 +22,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> {
 
@@ -39,7 +40,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView userMessage, date;
+        TextView message, date, username;
         String userID;
         ImageView profilePicture;
         RelativeLayout messageItem;
@@ -47,7 +48,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
             super(itemView);
 
             date = itemView.findViewById(R.id.dateMessage);
-            userMessage = itemView.findViewById(R.id.userMessage);
+            message = itemView.findViewById(R.id.userMessage);
+            username = itemView.findViewById(R.id.username);
             profilePicture = itemView.findViewById(R.id.profilepicture);
             messageItem = itemView.findViewById(R.id.message_item_id);
 
@@ -68,63 +70,63 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_item, parent, false);
         return new ChatAdapter.MyViewHolder(v);
     }
-
     @Override
     public void onBindViewHolder(@NonNull ChatAdapter.MyViewHolder holder, int position) {
+        if (holder == null) {
+            return;
+        }
         ChatModel chatModel = chatList.get(position);
-
-        holder.userMessage.setText(chatModel.getMessage());
-        holder.date.setText(chatModel.getDate());
 
         DatabaseReference database = FirebaseDatabase.getInstance().getReference("Users");
         database.orderByChild("email").equalTo(chatModel.getEmail()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-
-                    holder.userID = dataSnapshot.getKey();
-
-                    boolean isCurrentUser = chatModel.getEmail().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-
+                    // foto de usuário
                     String profilePictureUri = dataSnapshot.child("profilePictureUri").getValue(String.class);
-
                     Glide.with(holder.itemView.getContext())
                             .load(profilePictureUri)
                             .into(holder.profilePicture);
-
+                    // nome de usuário
                     String username = dataSnapshot.child("username").getValue(String.class);
-                    String message = chatModel.getMessage();
+                    holder.username.setText(username);
+                    // data
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy HH:mm", Locale.getDefault());
+                    try {
+                        Date date = dateFormat.parse(chatModel.getDate());
+                        long timeDifference = System.currentTimeMillis() - date.getTime();
+                        String relativeTime = getRelativeTime(timeDifference);
+                        holder.date.setText(relativeTime);
 
-                    SpannableStringBuilder builder = new SpannableStringBuilder();
-
-                    if (isCurrentUser) {
-                        // Aplica um estilo diferente se a mensagem for enviada pelo usuário que está logado
-                        builder.append(username);
-                        builder.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, username.length(), SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        builder.append(" ");
-                        builder.append(message);
-
-                        holder.messageItem.setGravity(Gravity.END);
-                        holder.userMessage.setWidth(600);
-
-                    } else {
-                        builder.append(username);
-                        builder.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, username.length(), SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        builder.append(" ");
-                        builder.append(message);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
                     }
-
-                    holder.userMessage.setText(builder);
+                    // mensagem
+                    holder.message.setText(chatModel.getMessage());
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.d("logdebug", "db error: " + error);
             }
         });
     }
+    private String getRelativeTime(long timeDifference) {
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(timeDifference);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(timeDifference);
+        long hours = TimeUnit.MILLISECONDS.toHours(timeDifference);
+        long days = TimeUnit.MILLISECONDS.toDays(timeDifference);
 
+        if (seconds < 60) {
+            return seconds + " segundos atrás";
+        } else if (minutes < 60) {
+            return minutes + " minutos atrás";
+        } else if (hours < 24) {
+            return hours + " horas atrás";
+        } else {
+            return days + " dias atrás";
+        }
+    }
     @Override
     public int getItemCount() {
         return chatList.size();
