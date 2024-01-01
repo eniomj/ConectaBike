@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,7 +27,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -137,37 +137,43 @@ public class Rota extends AppCompatActivity {
 
         MapView map = findViewById(R.id.mapContainerRota);
         map.onCreate(null);
-        map.getMapAsync(googleMap -> {
-            googleMap.getUiSettings().setZoomControlsEnabled(true);
+        map.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                map.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                map.getMapAsync(googleMap -> {
+                    googleMap.getUiSettings().setZoomControlsEnabled(true);
 
-            LatLng locationOrigin = new LatLng(originLat, originLng);
-            LatLng locationDestination = new LatLng(destinationlat,destinationlng);
+                    LatLng locationOrigin = new LatLng(originLat, originLng);
+                    LatLng locationDestination = new LatLng(destinationlat,destinationlng);
 
-            Marker origem = googleMap.addMarker(new MarkerOptions().position(locationOrigin).title("Origem"));
-            Marker destino = googleMap.addMarker(new MarkerOptions().position(locationDestination).title("Destino"));
-            // Move a camera entre os dois marcadores
-            List<Marker> markers = new ArrayList<Marker>();
-            markers.add(origem);
-            markers.add(destino);
+                    Marker origem = googleMap.addMarker(new MarkerOptions().position(locationOrigin).title("Origem"));
+                    Marker destino = googleMap.addMarker(new MarkerOptions().position(locationDestination).title("Destino"));
+                    // Move a camera entre os dois marcadores
+                    List<Marker> markers = new ArrayList<Marker>();
+                    markers.add(origem);
+                    markers.add(destino);
 
-            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            for (Marker m : markers) {
-                builder.include(m.getPosition());
+                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                    for (Marker m : markers) {
+                        builder.include(m.getPosition());
+                    }
+
+                    LatLngBounds bounds = builder.build();
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 150));
+
+                    new Handler(Looper.getMainLooper()).post(new Runnable(){
+                        @Override
+                        public void run() {
+                            PolylineOptions polylineOptions = new PolylineOptions()
+                                    .addAll(points)
+                                    .color(Color.BLUE)
+                                    .width(5);
+                            routePolyline = googleMap.addPolyline(polylineOptions);
+                        }
+                    });
+                });
             }
-
-            LatLngBounds bounds = builder.build();
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
-
-            new Handler(Looper.getMainLooper()).post(new Runnable(){
-                @Override
-                public void run() {
-                    PolylineOptions polylineOptions = new PolylineOptions()
-                            .addAll(points)
-                            .color(Color.BLUE)
-                            .width(5);
-                    routePolyline = googleMap.addPolyline(polylineOptions);
-                }
-            });
         });
     }
 

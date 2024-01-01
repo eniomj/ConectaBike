@@ -120,7 +120,7 @@ public class RotaAdapter extends RecyclerView.Adapter<RotaAdapter.MyViewHolder> 
                 }
 
                 LatLngBounds bounds = builder.build();
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 60));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 150));
 
                 new Handler(Looper.getMainLooper()).post(new Runnable(){
                     @Override

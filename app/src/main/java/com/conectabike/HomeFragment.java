@@ -98,7 +98,6 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
 
         List<List<Double>> points = locationData.getPoints();
         intent.putExtra("points", new ArrayList<>(points));
-
         startActivity(intent);
     }
 }
