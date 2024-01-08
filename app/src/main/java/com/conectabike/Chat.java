@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,15 +35,15 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Chat extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     DrawerLayout drawerLayout;
-    ArrayList<String> message;
     RecyclerView recyclerView;
     TextView messageText;
     ChatAdapter myAdapter;
-    ArrayList<ChatModel> list = new ArrayList<>();;
+    ArrayList<ChatModel> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,7 @@ public class Chat extends AppCompatActivity implements NavigationView.OnNavigati
         // Header email
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         TextView user_email = navigationView.getHeaderView(0).findViewById(R.id.user_email);
+        assert firebaseUser != null;
         user_email.setText(firebaseUser.getEmail());
 
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
@@ -106,15 +108,20 @@ public class Chat extends AppCompatActivity implements NavigationView.OnNavigati
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Chat");
 
-        myAdapter = new ChatAdapter(this, list);
+        myAdapter = new ChatAdapter( list);
         recyclerView.setAdapter(myAdapter);
 
         databaseReference.addChildEventListener(new ChildEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 ChatModel chatModel = dataSnapshot.getValue(ChatModel.class);
                 list.add(chatModel);
                 myAdapter.notifyDataSetChanged();
+
+                if (myAdapter.getItemCount() > 0) {
+                    recyclerView.scrollToPosition(myAdapter.getItemCount() - 1);
+                }
             }
 
             @Override
@@ -131,12 +138,11 @@ public class Chat extends AppCompatActivity implements NavigationView.OnNavigati
                 Log.d("logdebug", "db error: " + databaseError.getMessage());
             }
         });
-
     }
 
     public void sendChatMessage(View view) {
         messageText = findViewById(R.id.messageBox);
-        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        String email = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail();
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm");
         String date = now.format(formatter);

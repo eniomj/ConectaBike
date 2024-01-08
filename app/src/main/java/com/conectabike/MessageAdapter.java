@@ -2,8 +2,6 @@ package com.conectabike;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.SpannableStringBuilder;
-import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +32,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView userMessage, date;
+        TextView userMessage, date, username;
         String userID;
         ImageView profilePicture;
         public MyViewHolder(@NonNull View itemView) {
@@ -42,17 +40,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
 
             date = itemView.findViewById(R.id.dateMessage);
             userMessage = itemView.findViewById(R.id.userMessage);
+            username = itemView.findViewById(R.id.username);
             profilePicture = itemView.findViewById(R.id.profilepicture);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(itemView.getContext(), UserProfile.class);
-                    intent.putExtra("userID", userID);
-                    itemView.getContext().startActivity(intent);
-                }
+            itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(itemView.getContext(), UserProfile.class);
+                intent.putExtra("userID", userID);
+                itemView.getContext().startActivity(intent);
             });
-
         }
     }
 
@@ -76,24 +71,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
 
                     holder.userID = dataSnapshot.getKey();
-
+                    // foto de perfil
                     String profilePictureUri = dataSnapshot.child("profilePictureUri").getValue(String.class);
-
                     Glide.with(holder.itemView.getContext())
                             .load(profilePictureUri)
                             .into(holder.profilePicture);
-
+                    // nome de usuário
                     String username = dataSnapshot.child("username").getValue(String.class);
+                    holder.username.setText(username);
+                    // mensagem
                     String message = sublistMessage.get(0);
-
-                    SpannableStringBuilder builder = new SpannableStringBuilder();
-
-                    builder.append(username);
-                    builder.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, username.length(), SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    builder.append(" ");
-                    builder.append(message);
-
-                    holder.userMessage.setText(builder);
+                    holder.userMessage.setText(message);
                 }
             }
 
@@ -102,9 +90,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
                 Log.d("logdebug", "db error: " + error);
             }
         });
-
-
-
     }
 
     @Override

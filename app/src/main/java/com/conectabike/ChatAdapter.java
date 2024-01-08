@@ -1,6 +1,5 @@
 package com.conectabike;
 
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,11 +10,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,11 +28,9 @@ import java.util.concurrent.TimeUnit;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> {
 
-    private Context context;
-    private ArrayList<ChatModel> chatList;
+    private final ArrayList<ChatModel> chatList;
 
-    public ChatAdapter(Context context, ArrayList<ChatModel> chatList) {
-        this.context = context;
+    public ChatAdapter(ArrayList<ChatModel> chatList) {
         this.chatList = chatList;
     }
 
@@ -53,13 +48,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
             profilePicture = itemView.findViewById(R.id.profilepicture);
             messageItem = itemView.findViewById(R.id.message_item_id);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(itemView.getContext(), UserProfile.class);
-                    intent.putExtra("userID", userID);
-                    itemView.getContext().startActivity(intent);
-                }
+            itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(itemView.getContext(), UserProfile.class);
+                intent.putExtra("userID", userID);
+                itemView.getContext().startActivity(intent);
             });
         }
     }
@@ -72,9 +64,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     }
     @Override
     public void onBindViewHolder(@NonNull ChatAdapter.MyViewHolder holder, int position) {
-        if (holder == null) {
-            return;
-        }
         ChatModel chatModel = chatList.get(position);
 
         DatabaseReference database = FirebaseDatabase.getInstance().getReference("Users");
@@ -94,6 +83,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy HH:mm", Locale.getDefault());
                     try {
                         Date date = dateFormat.parse(chatModel.getDate());
+                        assert date != null;
                         long timeDifference = System.currentTimeMillis() - date.getTime();
                         String relativeTime = getRelativeTime(timeDifference);
                         holder.date.setText(relativeTime);
@@ -111,6 +101,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
             }
         });
     }
+
     private String getRelativeTime(long timeDifference) {
         long seconds = TimeUnit.MILLISECONDS.toSeconds(timeDifference);
         long minutes = TimeUnit.MILLISECONDS.toMinutes(timeDifference);
