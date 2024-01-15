@@ -18,7 +18,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Login extends AppCompatActivity {
+public class SignIn extends AppCompatActivity {
 
     EditText EditTextPassword, EditTextEmail;
     Button btn_login;
@@ -53,42 +53,36 @@ public class Login extends AppCompatActivity {
         textregister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Cadastro.class);
+                Intent intent = new Intent(getApplicationContext(), SignUp.class);
                 startActivity(intent);
                 finish();
             }
         });
 
-        btn_login.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
+        btn_login.setOnClickListener(v -> {
 
-              String email, password;
-              email = String.valueOf(EditTextEmail.getText());
-              password = String.valueOf(EditTextPassword.getText());
+            String email, password;
+            email = String.valueOf(EditTextEmail.getText());
+            password = String.valueOf(EditTextPassword.getText());
 
-              if(!email.equals("") && !password.equals("")) {
-                  mAuth.signInWithEmailAndPassword(email, password)
-                          .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
-                              @Override
-                              public void onComplete(@NonNull Task<AuthResult> task) {
-                                  if (task.isSuccessful()) {
-                                      Toast.makeText(Login.this, "Login bem sucedido.",
-                                              Toast.LENGTH_SHORT).show();
-                                      Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                      startActivity(intent);
-                                      finish();
-                                  } else {
-                                      Toast.makeText(Login.this, "Login falhou.",
-                                              Toast.LENGTH_SHORT).show();
-                                  }
-                              }
-                          });
-              } else {
-                  Toast.makeText(Login.this, "É necessário preencher todos os campos.", Toast.LENGTH_SHORT).show();
-              }
-          }
-      }
+            if(!email.equals("") && !password.equals("")) {
+                mAuth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(SignIn.this, "SignIn bem sucedido.",
+                                        Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Toast.makeText(SignIn.this, "SignIn falhou.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            } else {
+                Toast.makeText(SignIn.this, "É necessário preencher todos os campos.", Toast.LENGTH_SHORT).show();
+            }
+        }
         );}
 
 }

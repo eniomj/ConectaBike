@@ -185,7 +185,7 @@ public class Chat extends AppCompatActivity implements NavigationView.OnNavigati
         }
         if (item.getItemId() == R.id.nav_logout) {
             FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(getApplicationContext(), Login.class);
+            Intent intent = new Intent(getApplicationContext(), SignIn.class);
             startActivity(intent);
             finish();
         }

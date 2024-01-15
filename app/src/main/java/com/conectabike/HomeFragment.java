@@ -30,7 +30,7 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
     RecyclerView recyclerView;
     Button btn_criarrota;
     DatabaseReference database;
-    RotaAdapter myAdapter;
+    HomeAdapter myAdapter;
     ArrayList<LocationData> list;
     ArrayList<LocationData> listOnClick = new ArrayList<>();
 
@@ -46,19 +46,16 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         btn_criarrota = view.findViewById(R.id.btn_criarrota);
-        btn_criarrota.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), CriarRota.class);
-                startActivity(intent);
-            }
+        btn_criarrota.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), CreateRoute.class);
+            startActivity(intent);
         });
         list = new ArrayList<>();
         recyclerView = view.findViewById(R.id.rotas);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.requireContext()));
 
-        myAdapter = new RotaAdapter(this.requireContext(), list, this);
+        myAdapter = new HomeAdapter(this.requireContext(), list, this);
         recyclerView.setAdapter(myAdapter);
 
         database = FirebaseDatabase.getInstance().getReference("Rota");
@@ -83,7 +80,7 @@ public class HomeFragment extends Fragment implements RecyclerViewInterface {
 
     @Override
     public void onItemClick(int position) {
-        Intent intent = new Intent(getContext(), Rota.class);
+        Intent intent = new Intent(getContext(), Route.class);
 
         LocationData locationData = listOnClick.get(position);
 

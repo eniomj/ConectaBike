@@ -40,17 +40,17 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Rota extends AppCompatActivity {
+public class Route extends AppCompatActivity {
 
     RecyclerView recyclerView;
     String user;
     Polyline routePolyline = null;
     List<LatLng> points = new ArrayList<>();
-    MessageAdapter myAdapter;
+    RouteAdapter myAdapter;
     TextView messageText;
     ArrayList<String> message;
     int position;
-    ArrayList<LocationData> list = new ArrayList<>();;
+    ArrayList<LocationData> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +73,7 @@ public class Rota extends AppCompatActivity {
                     list.add(locationData);
                 }
                 position = getIntent().getIntExtra("position", 0);
-                myAdapter = new MessageAdapter(getApplicationContext(), list.get(position).getMessage());
+                myAdapter = new RouteAdapter(getApplicationContext(), list.get(position).getMessage());
                 recyclerView.setAdapter(myAdapter);
                 myAdapter.notifyDataSetChanged();
             }
@@ -211,7 +211,7 @@ public class Rota extends AppCompatActivity {
         String date = now.format(formatter);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Rota");
+        DatabaseReference myRef = database.getReference("Route");
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

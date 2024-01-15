@@ -21,12 +21,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHolder> {
+public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.MyViewHolder> {
 
     Context context;
     ArrayList<ArrayList<String>> messageList;
 
-    public MessageAdapter(Context context, ArrayList<ArrayList<String>> messageList) {
+    public RouteAdapter(Context context, ArrayList<ArrayList<String>> messageList) {
         this.context = context;
         this.messageList = messageList;
     }
@@ -53,13 +53,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
 
     @NonNull
     @Override
-    public MessageAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RouteAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_item, parent, false);
-        return new MessageAdapter.MyViewHolder(v);
+        return new RouteAdapter.MyViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MessageAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RouteAdapter.MyViewHolder holder, int position) {
         ArrayList<String> sublistMessage = messageList.get(position);
 
         holder.date.setText(sublistMessage.get(1));

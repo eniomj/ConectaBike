@@ -124,12 +124,7 @@ public class UserProfile extends AppCompatActivity implements NavigationView.OnN
         changeProfilePictureButton.setIconPadding(0);
         changeProfilePictureButton.setId(View.generateViewId());
 
-        changeProfilePictureButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                changeProfilePicture(view);
-            }
-        });
+        changeProfilePictureButton.setOnClickListener(this::changeProfilePicture);
 
         // Adiciona botão para o layout
         CardView profilePictureCard = findViewById(R.id.profilepicturecard);
@@ -275,7 +270,7 @@ public class UserProfile extends AppCompatActivity implements NavigationView.OnN
         }
         if (item.getItemId() == R.id.nav_logout) {
             FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(getApplicationContext(), Login.class);
+            Intent intent = new Intent(getApplicationContext(), SignIn.class);
             startActivity(intent);
             finish();
         }

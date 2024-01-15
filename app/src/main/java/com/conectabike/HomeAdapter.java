@@ -1,7 +1,6 @@
 package com.conectabike;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
@@ -34,14 +33,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class RotaAdapter extends RecyclerView.Adapter<RotaAdapter.MyViewHolder> {
+public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
 
     private final RecyclerViewInterface recyclerViewInterface;
     Context context;
     ArrayList<LocationData> list;
     Polyline routePolyline = null;
 
-    public RotaAdapter(Context context, ArrayList<LocationData> list, RecyclerViewInterface recyclerViewInterface) {
+    public HomeAdapter(Context context, ArrayList<LocationData> list, RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.list = list;
         this.recyclerViewInterface = recyclerViewInterface;
@@ -122,15 +121,12 @@ public class RotaAdapter extends RecyclerView.Adapter<RotaAdapter.MyViewHolder> 
                 LatLngBounds bounds = builder.build();
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 150));
 
-                new Handler(Looper.getMainLooper()).post(new Runnable(){
-                    @Override
-                    public void run() {
-                        PolylineOptions polylineOptions = new PolylineOptions()
-                                .addAll(points)
-                                .color(Color.BLUE)
-                                .width(5);
-                        routePolyline = googleMap.addPolyline(polylineOptions);
-                    }
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    PolylineOptions polylineOptions = new PolylineOptions()
+                            .addAll(points)
+                            .color(Color.BLUE)
+                            .width(5);
+                    routePolyline = googleMap.addPolyline(polylineOptions);
                 });
             }
         });
@@ -156,15 +152,12 @@ public class RotaAdapter extends RecyclerView.Adapter<RotaAdapter.MyViewHolder> 
             distance = itemView.findViewById(R.id.distance);
             profilePicture = itemView.findViewById(R.id.profilepicture);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (recyclerViewInterface != null) {
-                        int pos = getAdapterPosition();
-                        if (pos != RecyclerView.NO_POSITION) {
-                            recyclerViewInterface.onItemClick(pos);
+            itemView.setOnClickListener(v -> {
+                if (recyclerViewInterface != null) {
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        recyclerViewInterface.onItemClick(pos);
 
-                        }
                     }
                 }
             });

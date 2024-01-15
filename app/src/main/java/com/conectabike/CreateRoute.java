@@ -55,7 +55,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class CriarRota extends AppCompatActivity implements OnMapReadyCallback {
+public class CreateRoute extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final int REQUEST_CODE = 101;
     private GoogleMap mMap;
@@ -76,7 +76,7 @@ public class CriarRota extends AppCompatActivity implements OnMapReadyCallback {
 
         mapSearchView = findViewById(R.id.mapsearch);
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(CriarRota.this);
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(CreateRoute.this);
         getLastLocation();
         //barra de pesquisa
         mapSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -86,7 +86,7 @@ public class CriarRota extends AppCompatActivity implements OnMapReadyCallback {
                 List<Address> adressList = null;
 
                 if (mapSearchView != null) {
-                    Geocoder geocoder = new Geocoder(CriarRota.this);
+                    Geocoder geocoder = new Geocoder(CreateRoute.this);
 
                     try {
                         adressList = geocoder.getFromLocationName(location, 1);
@@ -115,15 +115,12 @@ public class CriarRota extends AppCompatActivity implements OnMapReadyCallback {
             return;
         }
         Task<Location> task = fusedLocationProviderClient.getLastLocation();
-        task.addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if (location != null) {
-                    currentLocation = location;
-                    SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-                    mapFragment.getMapAsync(CriarRota.this);
+        task.addOnSuccessListener(location -> {
+            if (location != null) {
+                currentLocation = location;
+                SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+                mapFragment.getMapAsync(CreateRoute.this);
 
-                }
             }
         });
     }
@@ -140,18 +137,14 @@ public class CriarRota extends AppCompatActivity implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(mlatLng));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mlatLng, 10));
 
-        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-
-            @Override
-            public void onMapLongClick(LatLng arg0) {
-                if (markerCount.size() < 2) {
-                    marker = mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(arg0.latitude, arg0.longitude))
-                            .draggable(true)
-                            .visible(true));
-                    markerCount.add(arg0);
-                    mostrarRota();
-                }
+        mMap.setOnMapLongClickListener(arg0 -> {
+            if (markerCount.size() < 2) {
+                marker = mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(arg0.latitude, arg0.longitude))
+                        .draggable(true)
+                        .visible(true));
+                markerCount.add(arg0);
+                mostrarRota();
             }
         });
     }
@@ -246,7 +239,7 @@ public class CriarRota extends AppCompatActivity implements OnMapReadyCallback {
             }
 
             DatabaseReference counterRef = database.getReference("Counter");
-            DatabaseReference rotaRef = database.getReference("Rota");
+            DatabaseReference rotaRef = database.getReference("Route");
             String key = rotaRef.push().getKey();
             counterRef.runTransaction(new Transaction.Handler() {
                 @Override
