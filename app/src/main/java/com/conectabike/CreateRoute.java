@@ -239,7 +239,7 @@ public class CreateRoute extends AppCompatActivity implements OnMapReadyCallback
             }
 
             DatabaseReference counterRef = database.getReference("Counter");
-            DatabaseReference rotaRef = database.getReference("Route");
+            DatabaseReference rotaRef = database.getReference("Rota");
             String key = rotaRef.push().getKey();
             counterRef.runTransaction(new Transaction.Handler() {
                 @Override

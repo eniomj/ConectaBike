@@ -202,7 +202,6 @@ public class Route extends AppCompatActivity {
     }
 
     public void sendMessage(View view) {
-
         messageText = findViewById(R.id.messageBox);
         String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
@@ -211,7 +210,7 @@ public class Route extends AppCompatActivity {
         String date = now.format(formatter);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Route");
+        DatabaseReference myRef = database.getReference("Rota");
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
