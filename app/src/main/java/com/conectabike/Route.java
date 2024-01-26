@@ -149,6 +149,7 @@ public class Route extends AppCompatActivity {
 
                     Marker origem = googleMap.addMarker(new MarkerOptions().position(locationOrigin).title("Origem"));
                     Marker destino = googleMap.addMarker(new MarkerOptions().position(locationDestination).title("Destino"));
+                    origem.showInfoWindow();
                     // Move a camera entre os dois marcadores
                     List<Marker> markers = new ArrayList<Marker>();
                     markers.add(origem);

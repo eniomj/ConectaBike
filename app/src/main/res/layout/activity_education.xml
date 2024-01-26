@@ -22,13 +22,29 @@
             app:titleTextColor="@color/white"
             android:background="?attr/colorPrimary" />
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/headerEducation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbarEducation"
+            android:background="@color/lightgrey">
+            <TextView
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sessão de artigos/leituras sobre ciclismo, com o objetivo de incentivar usuários à escolher a bicicleta como principal meio de transporte"
+                android:textSize="20sp"
+                android:background="@color/lightgrey"/>
+        </androidx.cardview.widget.CardView>
+
         <androidx.recyclerview.widget.RecyclerView
             android:background="@color/lightgrey"
             android:id="@+id/recyclerView"
-            android:layout_below="@id/toolbarEducation"
+            android:layout_below="@id/headerEducation"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp"
+            android:padding="15dp"
             android:clipToPadding="false"
             android:scrollbars="vertical"
             tools:listitem="@layout/education_item"/>

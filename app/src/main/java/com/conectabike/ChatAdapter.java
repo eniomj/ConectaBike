@@ -109,13 +109,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         long days = TimeUnit.MILLISECONDS.toDays(timeDifference);
 
         if (seconds < 60) {
-            return seconds + " segundos atrás";
+            return (seconds == 1) ? "1 segundo atrás" : seconds + " segundos atrás";
         } else if (minutes < 60) {
-            return minutes + " minutos atrás";
+            return (minutes == 1) ? "1 minuto atrás" : minutes + " minutos atrás";
         } else if (hours < 24) {
-            return hours + " horas atrás";
+            return (hours == 1) ? "1 hora atrás" : hours + " horas atrás";
         } else {
-            return days + " dias atrás";
+            return (days == 1) ? "1 dia atrás" : days + " dias atrás";
         }
     }
     @Override

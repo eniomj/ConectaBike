@@ -93,6 +93,7 @@ public class CreateRoute extends AppCompatActivity implements OnMapReadyCallback
                         Address adress = adressList.get(0);
                         LatLng latLng = new LatLng(adress.getLatitude(), adress.getLongitude());
                         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+                        mapSearchView.clearFocus();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -219,8 +220,6 @@ public class CreateRoute extends AppCompatActivity implements OnMapReadyCallback
         points.clear();
         markerCount.clear();
     }
-
-
 
     public void salvarRota(View view) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();

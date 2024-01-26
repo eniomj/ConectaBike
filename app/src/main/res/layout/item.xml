@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="160dp"
             map:mapType="normal"
-            map:liteMode="true"
+            map:liteMode="false"
              />
 
         <LinearLayout
@@ -31,11 +31,12 @@
             android:layout_gravity="center">
 
             <TextView
+                android:padding="5dp"
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textSize="26sp"
+                android:textSize="22sp"
                 android:textStyle="bold"/>
 
         </LinearLayout>
@@ -63,8 +64,7 @@
                     android:layout_height="50dp"
                     android:background="@color/white"
                     android:scaleType="centerCrop"
-                    android:elevation="5dp"
-                    />
+                    android:elevation="5dp" />
 
             </androidx.cardview.widget.CardView>
 
@@ -76,18 +76,19 @@
                 android:layout_marginStart="10dp"
                 android:text=""
                 android:textColor="@color/my_secondary"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold"/>
 
         </LinearLayout>
 
         <TextView
+            android:padding="5dp"
             android:id="@+id/distance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=""
             android:textColor="@color/my_secondary"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"

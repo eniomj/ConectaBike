@@ -14,11 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
@@ -32,6 +29,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
 
@@ -94,7 +95,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
                 LatLng locationOrigin = new LatLng(locationData.getOriginLat(), locationData.getOriginLng());
                 LatLng locationDestination = new LatLng(locationData.getDestinationLat(), locationData.getDestinationLng());
 
-                // converte List<List<Double>> para List<LatLng>
+                // Converte List<List<Double>> para List<LatLng>
                 List<LatLng> points = new ArrayList<>();
                 for (List<Double> point : locationData.getPoints()) {
                     if (point.size() >= 2) {
@@ -105,10 +106,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
                     }
                 }
 
+                // Move a camera entre os dois marcadores
                 Marker origem = googleMap.addMarker(new MarkerOptions().position(locationOrigin).title("Origem"));
                 Marker destino = googleMap.addMarker(new MarkerOptions().position(locationDestination).title("Destino"));
 
-                // Move a camera entre os dois marcadores
                 List<Marker> markers = new ArrayList<Marker>();
                 markers.add(origem);
                 markers.add(destino);
@@ -117,10 +118,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
                 for (Marker m : markers) {
                     builder.include(m.getPosition());
                 }
-
                 LatLngBounds bounds = builder.build();
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 150));
 
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,100));
+
+                // Adiciona polylines
                 new Handler(Looper.getMainLooper()).post(() -> {
                     PolylineOptions polylineOptions = new PolylineOptions()
                             .addAll(points)
