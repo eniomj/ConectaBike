@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg2"
+    android:background="@drawable/bg1"
     tools:context="com.conectabike.SignIn">
 
     <RelativeLayout
@@ -29,7 +29,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Login"
+            android:text="Entrar"
             android:textStyle="bold"
             android:fontFamily="sans-serif-medium"
             android:textSize="32sp"
