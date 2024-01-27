@@ -3,6 +3,8 @@
     <string name="open_nav">Open Navigation Drawer</string>
     <string name="close_nav">Close Navigation Drawer</string>
 
+    <string name="educationHeaderText">Sessão de artigos/leituras sobre ciclismo, com o objetivo de incentivar usuários a escolher a bicicleta como principal meio de transporte</string>
+
     <string name="reason1">Impacto ambiental:</string>
     <string name="reason2">Benefícios para a saúde:</string>
     <string name="reason3">Economia de custos:</string>

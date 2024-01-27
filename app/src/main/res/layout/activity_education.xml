@@ -33,7 +33,7 @@
                 android:padding="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sessão de artigos/leituras sobre ciclismo, com o objetivo de incentivar usuários à escolher a bicicleta como principal meio de transporte"
+                android:text="@string/educationHeaderText"
                 android:textSize="20sp"
                 android:background="@color/lightgrey"/>
         </androidx.cardview.widget.CardView>
